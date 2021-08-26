@@ -1,0 +1,83 @@
+.container-SignIn{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #121212;
+    .login{
+        background-color: #eaeaec;
+        width: 600px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        .login_area{
+            display: flex;
+            justify-content: center;
+            background-color: #181c2c;
+            width: 100%;
+
+            img{
+                padding: 20px;
+                width: 170px;
+                height: 130px;
+            }
+        }
+        .form_signIn {
+            margin-top: 1.5em;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            h1{
+                text-align: center;
+                margin-bottom: 0.5em;
+                color: #181c2c;
+            }
+            input{
+                margin: 0 auto 15px;
+                height: 35px;
+                width: 90%;
+                border: none;
+                outline: none;
+                border-radius:10px ;
+                padding: 10px;
+                font-size: 15px;
+                border: .5px solid #181c2c; 
+                background-color: #fff;
+            }
+            button{
+                margin: 0 auto 15px;
+                height: 35px;
+                border: 0;
+                width: 90%;
+                border-radius: 10px;
+                background-color: #181c2c;
+                color: #fff;
+                font-size: 1.3em;
+            }
+        }
+        a{
+            margin: 1.5em 0;
+            color:#0008;
+            cursor: pointer;
+            position: relative;
+            transition: .3s all ease;
+        }
+        a:hover:after{
+            content: '';
+            left: 0;
+            width: 100%;
+        }
+        a:after{
+            content: '';
+            position: absolute;
+            top: 90%;
+            background-color: #181c2c;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            margin-top: 4px;
+            transition: .3s all ease;
+        }
+    }
+}
