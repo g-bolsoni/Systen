@@ -1,6 +1,6 @@
-import {useContext } from 'react'
+import {useContext } from 'react';
 import {Route, Redirect} from 'react-router-dom';
-import { UserContext } from '../contexts/user'
+import { UserContext } from '../contexts/user';
 export default function RouteWrapper({
     component: Component,
     isPrivate,
@@ -8,9 +8,9 @@ export default function RouteWrapper({
 }){
     const {signed,loading } = useContext(UserContext);
 
-    if(loading){
+    if(!loading){
         return(
-            <div>Loading...</div>
+            <div> Loading...</div>
         )
     }
     if(!signed && isPrivate){

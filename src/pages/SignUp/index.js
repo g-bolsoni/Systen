@@ -1,15 +1,19 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {Link} from 'react-router-dom'
+import { UserContext } from '../../contexts/user'
 import './style.scss';
 import logo from '../../assets/logo.png'
-export default function SignIn() {
+export default function SignUp() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const {signUp} = useContext(UserContext)
     
     function handleSubmit(e) {
         e.preventDefault()
-        alert('Clicou');
+        if(name !== ''  && email !== '' && password !== ''){
+            signUp( email, password, name);
+        }
     }
 
     return (
