@@ -1,16 +1,22 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom'
+import React, {useState, useContext} from 'react';
+import { Link } from 'react-router-dom'
+
 import './style.scss';
-import logo from '../../assets/logo.png'
+import logo from '../../assets/logo.png';
+
+import { UserContext } from '../../contexts/user';
+
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { signIn, loadingAuth} = useContext(UserContext);
     
     function handleSubmit(e) {
-        e.preventDefault()
-        alert('Clicou');
+        e.preventDefault();
+        if(email !== '' && password !== ''){
+            signIn( email, password);
+        }
     }
-
     return (
         <div className="page-comom container-SignIn">
             <div className='login'>
@@ -21,7 +27,7 @@ export default function SignIn() {
                     <h1>Entrar</h1>
                     <input type="text" placeholder="email@email.email.com" value={email} onChange={(e)=> setEmail(e.target.value)}/>
                     <input type="password" placeholder="*******" value={password} onChange={(e)=> setPassword(e.target.value)}/>
-                    <button type="submit">Acessar</button>
+                    <button type="submit">{loadingAuth ? 'Loanding ... ': "Acessar"}</button>
                 </form>
                 <Link to="/register"><span>Criar uma conta</span></Link>
 

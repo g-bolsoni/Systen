@@ -8,9 +8,9 @@ export default function RouteWrapper({
 }){
     const {signed,loading } = useContext(UserContext);
 
-    if(!loading){
+    if(loading){
         return(
-            <div> Loading...</div>
+            <div>LOADING</div>
         )
     }
     if(!signed && isPrivate){
