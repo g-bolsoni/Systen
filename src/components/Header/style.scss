@@ -1,0 +1,106 @@
+.sidebar_header{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: calc(100vw - 80vw);
+    background-color: #1e1e1e;
+    // User avatar
+    .avatar_user{
+        display: inherit;
+        justify-content: center;
+        align-items: center;
+        background-image:url('../../assets/cover.png');
+        background-repeat: no-repeat;
+        background-color: #ddd;
+        background-size: cover;
+        padding: 40px;
+        max-height: 30vh;
+        width: 100%;
+        .user_image{
+            max-width: 85px;
+            max-height: 85px;
+            -webkit-filter: drop-shadow(2px 3px 6px #121212);
+            filter: drop-shadow(2px 3px 6px #121212);
+            object-fit: cover;
+        }
+    }
+    // List
+    .categorys{
+        width: 100%;
+        ul li{
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px  10px;
+            min-width: 100%;
+            color: #e1e1e1 ;
+            transition: all .3s ease-in-out;
+            &:hover{
+                background: #313131;
+            }
+            .calls_icon,
+            .clients_icon,
+            .settings_image{
+                max-width: 25px;
+                max-height: 25px;
+            }
+            span{
+                padding-left: 10px;
+            }
+        }
+    }
+}
+@media only screen and (max-width:1199px){
+    .sidebar_header {
+        display: flex;
+        flex-direction: row;
+        min-width: 100vw;
+        min-height: fit-content;
+        .avatar_user{display: none;}
+        // List
+        .categorys{
+            width: fit-content;
+            ul{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                min-width: 100vw;
+                li{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-evenly;
+                    padding: 20px  10px;
+                    min-width: 100%;
+                    color: #e1e1e1 ;
+                    transition: all .3s ease-in-out;
+                    &:hover{
+                        background: #313131;
+                    }
+                    .calls_icon,
+                    .clients_icon,
+                    .settings_image{
+                        max-width: 25px;
+                        max-height: 25px;
+                    }
+                    span{
+                        padding-left: 10px;
+                    }
+                }
+            }
+        }
+    
+    }
+}
+@media only screen and (max-width:767px){
+    .sidebar_header .categorys ul li{
+        &:hover{
+            background: #1e1e1e;
+        }
+        span {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
+   
+}

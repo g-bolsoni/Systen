@@ -24,3 +24,9 @@ ul, li {
 button{
     cursor: pointer;
 }
+#root {
+    display: flex;
+    flex-direction: row;
+    min-width: 100vw;
+    min-height: 100vh;
+}
