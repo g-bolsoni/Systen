@@ -8,13 +8,11 @@ export default function UserProvider({children}) {
     const [user, setUser] = useState(null);
     const [loadingAuth, setloadingAuth] = useState(false); // fazer loading no botão
     const [loading, setLoading] = useState(true); //loading geral
-    // verrificação de usuário logado
+    // Verificação de usuário logado
     useEffect(() => {
         async function loadStorage(){
             const storgeUser = await localStorage.getItem('SystemUser');
-            console.log(storageUser)
             if( !!storgeUser ){
-                console.log('aquit')
                 setUser(JSON.parse(storgeUser));
                 setLoading(false);
             }
@@ -23,12 +21,12 @@ export default function UserProvider({children}) {
         loadStorage()
     }, []);
     //Login User 
-     async function signIn(email,password){
+    async function signIn(email,password){
         setloadingAuth(true);
         await firebase.auth().signInWithEmailAndPassword(email, password)
         .then(async (value)=>{
             let uid =  value.user.uid;
-             
+
             const userProfile = await firebase.firestore().collection('users').doc(uid).get();
             let data ={
                 uid: uid,
@@ -49,11 +47,12 @@ export default function UserProvider({children}) {
         })
     };
     //CADASTRAR USER
-    async function signUp(email,password, name){
+    async function signUp(email,password,name){
         setloadingAuth(true);
         await firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(async (value)=>{
             let uid = value.user.uid;
+            /*criuar no bd*/
             await firebase.firestore().collection('users')
             .doc(uid).set({
                 name: name,

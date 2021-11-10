@@ -10,7 +10,7 @@ export default function RouteWrapper({
 
     if(loading){
         return(
-            <div>LOADING</div>
+            <div>LOADING ...</div>
         )
     }
     if(!signed && isPrivate){

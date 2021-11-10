@@ -4,6 +4,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    overflow: hidden ;
 }
 *:focus{
     outline: none;
@@ -29,4 +30,7 @@ button{
     flex-direction: row;
     min-width: 100vw;
     min-height: 100vh;
+
+    --backgroundMain: #121212;
+    --colorText: #fff;
 }
