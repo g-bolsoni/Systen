@@ -92,11 +92,13 @@ export default function UserProvider({children}) {
             {signed:
                 !!user,
                 user,
+                setUser,
                 loading,
                 loadingAuth,
                 signUp,
                 signOut,
-                signIn
+                signIn,
+                storageUser
             }
         }>
             {children }
