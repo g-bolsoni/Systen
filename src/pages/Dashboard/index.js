@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 
 import {FiMessageSquare,FiPlus, FiSearch, FiEdit2} from 'react-icons/fi';
 export default function Dashboard() {
-    const [called, setcalled] = useState([])
+    const [called, setCalled] = useState([])
     return (
-        <div className="dashboard_container">
+        <div className="dad_container">
             <Header/>
             <div className="content">
                 <Title name="Chamados" >
@@ -22,7 +22,6 @@ export default function Dashboard() {
                 ):(
                     <div className="container active">
                         <Link to="/new" className="new"><FiPlus size={25} color="#fff"/>Novo Chamado</Link>
-
                         <table>
                             <thead>
                                 <tr>

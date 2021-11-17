@@ -37,7 +37,7 @@ export default function Customers() {
     }
 
     return (
-        <div className="customers_container">
+        <div className="dad_container">
             <Header/>
             <div className="content">
                 <Title name="Clientes">

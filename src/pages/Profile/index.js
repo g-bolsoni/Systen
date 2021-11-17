@@ -86,7 +86,7 @@ export default function Profile() {
         })
     }
     return (
-        <div className="profile_container">
+        <div className="dad_container">
             <Header/>
             <div className="content">
                 <Title name="Meu perfil" >
