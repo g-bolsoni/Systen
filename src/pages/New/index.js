@@ -1,13 +1,12 @@
 import './style.scss';
 import { useState, useContext, useEffect } from 'react';
-import {user} from '../../contexts/user';
+import { UserContext } from '../../contexts/user';
 import firebase from '../../services/firebaseConnection';
 
 import Header from '../../components/Header';
 import Title from '../../components/Title';
 import {FiPlusCircle} from 'react-icons/fi';
 import { toast } from 'react-toastify';
-import { id } from 'prelude-ls';
 
 
 export default function New() {
@@ -17,10 +16,30 @@ export default function New() {
     const [topic, setTopic] = useState('suport');
     const [status, setStatus] = useState('open');
     const [complement, setComplement] = useState('');
+
+    const { user } = useContext( UserContext );
     
-    function handleRegisterClient(e){
+    async function handleRegisterClient(e){
         e.preventDefault();
-        alert('hellou')
+       await firebase.firestore().collection('called').add({
+            created: new Date(),
+            client: customers[customerSelected].name_fantasia,
+            clientId: customers[customerSelected].id,
+            topic: topic,
+            status: status,
+            complement: complement,
+            userId: user.uid
+       })
+       .then(()=>{
+           toast.success('Chamado cadastrado.');
+           toast.success('Ufaa, deu tudo certo !');
+           setComplement('');
+           setCustomerSelected(0);
+       })
+       .catch(err =>{
+           console.log(err);
+           toast.error('Algo está errado, tente novamente')
+       })
     }
     useEffect(() => {
         async function loadCustomers(){
