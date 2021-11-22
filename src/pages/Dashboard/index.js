@@ -1,12 +1,104 @@
 import './style.scss'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Header from '../../components/Header';
 import Title from '../../components/Title';
+import Modal from '../../components/Modal';
 import { Link } from 'react-router-dom';
+import {format} from 'date-fns'
 
-import {FiMessageSquare,FiPlus, FiSearch, FiEdit2} from 'react-icons/fi';
+import firebase from '../../services/firebaseConnection';
+import {FiMessageSquare,FiPlus, FiSearch, FiEdit2, } from 'react-icons/fi';
+import { toast } from 'react-toastify';
+
+
+const listRef =  firebase.firestore().collection('called').orderBy('created', 'desc');
+
 export default function Dashboard() {
-    const [called, setCalled] = useState([])
+    const [called, setCalled] = useState([]);//Chamados
+    const [loading, setLoading] = useState(true); //exibe a mensagem de carregando os chamados
+    const [loadingMore, setLoadingMore] = useState(false); // buscar mais chamados
+    const [isEmpty, setIsEmpty] = useState(false); // verifica se possui algum chamado cadastrado
+    const [lastDocs, setLastDocs] = useState(); // o ultimo documento buscado
+    const [showPostModal, setShowPostModal] = useState(false);
+    const [detail, setDetail] = useState();
+
+
+    useEffect(()=>{
+        async function loadCalled(){
+            await listRef.limit(5)
+            .get()
+            .then((snapshot)=>{
+                updateState(snapshot)
+            })
+            .catch(err => {
+                console.log(err);
+                setLoadingMore(false);
+            })
+    
+            setLoading(false);
+        }
+        loadCalled();
+        return () => {}
+    },[ ]);
+
+    async function updateState(snapshot){
+        const isCollectionEmpty = snapshot.size === 0;
+        if(!isCollectionEmpty){
+            let list = [];
+            snapshot.forEach(doc => {
+                list.push({
+                    id:doc.id,
+                    topic: doc.data().topic,
+                    client: doc.data().client,
+                    clientId: doc.data().clientId,
+                    created: doc.data().created,
+                    createdFormat:format(doc.data().created.toDate(), 'dd/MM/yyyy'),
+                    status: doc.data().status,
+                    complement: doc.data().complement
+                })
+                console.log(doc.data());
+            });
+            const lastDocSearch = snapshot.docs[snapshot.docs.length - 1] //o ultimo doc
+            setCalled(called => [...called, ...list]);
+            setLastDocs(lastDocSearch);            
+        }else{
+            setIsEmpty(true);
+        }
+        setLoadingMore(false);
+    };
+
+    if(loading){
+        return( 
+            <div className="dad_container">
+                 <Header/>
+                <div className="content">
+                    <Title name="Chamados" >
+                        <FiMessageSquare color="#000" size={25}/>
+                    </Title>
+                </div>
+                <div className="container dashboard">
+                    <span> Buscando chamados ...</span>
+                </div>
+            </div>
+        )
+    };
+    async function handleMore() {
+        setLoadingMore(true)
+        await listRef.startAfter(lastDocs).limit(5)
+        .get()
+        .then((snapshot)=>{
+            updateState(snapshot)
+        })
+        .catch(err => {
+            console.log(err);
+            toast.warning('Não há mais chamados');
+        })
+    };
+    function tooglePostModal(item){
+        console.log(item)
+        
+    };
+
     return (
         <div className="dad_container">
             <Header/>
@@ -14,7 +106,7 @@ export default function Dashboard() {
                 <Title name="Chamados" >
                     <FiMessageSquare color="#000" size={25}/>
                 </Title>
-                {called.length !== 0 ? (
+                {called.length === 0 ? (
                     <div className="container dashboard">
                         <span> Nenhum chamado registrado </span>
                         <Link to="/new" className="new"><FiPlus size={25} color="#fff"/>Novo Chamado</Link>
@@ -31,30 +123,47 @@ export default function Dashboard() {
                                     <th scope="col">Cadastrado em</th>
                                     <th scope="col">#</th>
                                 </tr>
-
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td data-label="Cliente">Escola</td>
-                                    <td data-label="Assunto">Suporte</td>
-                                    <td data-label="Status">
-                                        <span className="badge" style={{background:'#5cb85c'}}>Em aberto</span>
-                                    </td>
-                                    <td data-label="Cadastrado">20/06/2021</td>
-                                    <td data-label="#">
-                                        <button className="action"style={{background:'#3583f6'}}>
-                                            <FiSearch color="#fff" size={17}/>
-                                        </button>
-                                        <button className="action"style={{background:'#f6a935'}}>
-                                            <FiEdit2 color="#fff" size={17}/>
-                                        </button>
-                                    </td>
-                                </tr>
+                                {called.map((item,index)=>{
+                                    return(
+                                        <tr key={index}>
+                                            <td data-label="Cliente">{item.client}</td>
+                                            <td data-label="Assunto">{item.topic}</td>
+                                            <td data-label="Status">
+                                                <span className="badge" style={{background: item.status === 'Aberto' ? '#5cb85c' : (item.status === 'Progresso' ? '#2954ff' : '#8C8C8C' ) }}>{item.status}</span>
+                                            </td>
+                                            <td data-label="Cadastrado">{item.createdFormat}</td>
+                                            <td data-label="#">
+                                                <button className="action" onClick={(item) => {
+                                                    setShowPostModal(!showPostModal);
+                                                    setDetail(item);
+                                                    console.log(`item ${item}`)
+                                                    }
+                                                }style={{background:'#3583f6'}}  >
+                                                    <FiSearch color="#fff" size={17}/>
+                                                </button>
+                                                <button className="action" style={{background:'#f6a935'}} >
+                                                    <FiEdit2 color="#fff" size={17}/>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
                             </tbody>
                         </table>
+                        {loadingMore && <h3 style={{textAlign: 'center', marginTop: 15}}> Buscando chamdos ...</h3>}
+                        {!loadingMore && !isEmpty && <button className="more" onClick={handleMore}><FiSearch color="#fff" size={20}/> Buscar Mais </button>}
+                       
                     </div> 
                 )}
             </div>
+            {showPostModal && (
+                <Modal
+                    topic={detail}
+                    close={tooglePostModal}
+                />
+            )}
         </div>
     )
 }

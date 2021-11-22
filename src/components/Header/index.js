@@ -9,7 +9,7 @@ import avatar from '../../assets/avatar.png'
 
 export default function Header() {
     const { user } = useContext(UserContext); //importa os dados do user
-    console.log(`user ${user}` ) 
+    // console.log(`user ${user}` ) 
     // console.log('user avatar ' + user.avatarUrl)
     // const [checked, setChecked] = React.useState(false);
     // const checkbox =  document.getElementById('hamburguer');

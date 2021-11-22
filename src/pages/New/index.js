@@ -13,8 +13,8 @@ export default function New() {
     const [loadCustomer, setLoadCustomer] = useState(true);//load 
     const [customers, setCustomers] = useState([]);//get user
     const [customerSelected, setCustomerSelected] = useState(0); //limite de user
-    const [topic, setTopic] = useState('suport');
-    const [status, setStatus] = useState('open');
+    const [topic, setTopic] = useState('Suporte');
+    const [status, setStatus] = useState('Aberto');
     const [complement, setComplement] = useState('');
 
     const { user } = useContext( UserContext );
@@ -106,23 +106,23 @@ export default function New() {
 
                         <label>Assunto:</label>
                         <select value={topic} onChange={e => setTopic(e.target.value)}>  
-                            <option value="suport">Suporte</option>
-                            <option value="visit">Visita Tecnica</option>
-                            <option value="finance">Financeiro</option>
+                            <option value="Suporte">Suporte</option>
+                            <option value="Visita">Visita Tecnica</option>
+                            <option value="Financeiro">Financeiro</option>
                         </select>
                        
                         <label> Status:</label>
                         <div className="statusRadio">
-                            <input  type="radio"  id="open"  name="radio" value="open" onChange={e => setStatus(e.target.value)} 
-                            checked={ status === 'open' ? true : false}/>
+                            <input  type="radio"  id="open"  name="radio" value="Aberto" onChange={e => setStatus(e.target.value)} 
+                            checked={ status === 'Aberto' ? true : false}/>
                             <label htmlFor="open"> Em aberto</label>
                             
-                            <input  type="radio" id="progress"  name="radio" value="progress" onChange={e => setStatus(e.target.value)}
-                            checked={ status === 'progress' ? true : false} />
+                            <input  type="radio" id="progress"  name="radio" value="Progresso" onChange={e => setStatus(e.target.value)}
+                            checked={ status === 'Progresso' ? true : false} />
                             <label htmlFor="progress" > Em progresso</label>
                             
-                            <input  type="radio"  id="solved"  name="radio" value="solved" onChange={e => setStatus(e.target.value)}
-                            checked={ status === 'solved' ? true : false} />
+                            <input  type="radio"  id="solved"  name="radio" value="Resolvido" onChange={e => setStatus(e.target.value)}
+                            checked={ status === 'Resolvido' ? true : false} />
                             <label htmlFor="solved"> Resolvido</label>
                         </div>
 
@@ -131,7 +131,7 @@ export default function New() {
                         <textarea type="text" placeholder="Descreva seu problema(opcional)." value={complement}
                         onChange={e => setComplement(e.target.value)} rows='5' collumn="60" />
 
-                        <button type="submit"> Salvar</button>
+                        <button type="submit" href="/dashboard"> Salvar</button>
                     </form>
                 </div>
             </div>
