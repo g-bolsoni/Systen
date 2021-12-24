@@ -1,8 +1,8 @@
 import React from 'react';
+import { FiX} from 'react-icons/fi';
 import './style.scss';
-import { FiX} from 'react-icons/fi'
 
-export default function Modal(topic,close) {
+export default function Modal({topic,close}){
     return (
         <div className="modal">
             <div className="container">
@@ -29,5 +29,7 @@ export default function Modal(topic,close) {
                 )}
             </div>
         </div>
-    )
-}
+    );
+};
+
+;

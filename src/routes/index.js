@@ -8,7 +8,6 @@ import Dashboard from '../pages/Dashboard';
 import Customers from '../pages/Customers';
 import Profile from '../pages/Profile';
 import New from '../pages/New';
-
 export default function Routes() {
     return (
         <BrowserRouter>   
@@ -19,6 +18,7 @@ export default function Routes() {
                 <Route exact path="/customers" component={Customers} isPrivate/>
                 <Route exact path="/profile" component={Profile} isPrivate/>
                 <Route exact path="/new" component={New} isPrivate/>
+
             </Switch>
         </BrowserRouter>
     )

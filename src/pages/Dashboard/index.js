@@ -19,8 +19,9 @@ export default function Dashboard() {
     const [loadingMore, setLoadingMore] = useState(false); // buscar mais chamados
     const [isEmpty, setIsEmpty] = useState(false); // verifica se possui algum chamado cadastrado
     const [lastDocs, setLastDocs] = useState(); // o ultimo documento buscado
-    const [showPostModal, setShowPostModal] = useState(false);
-    const [detail, setDetail] = useState();
+
+    const [isModalVisible, setIsModalVisible] = useState(false);//verifica se o modal esta aberto ou não
+    const [detail, setDetail] = useState();// verifica os dados do modal
 
 
     useEffect(()=>{
@@ -56,7 +57,7 @@ export default function Dashboard() {
                     status: doc.data().status,
                     complement: doc.data().complement
                 })
-                console.log(doc.data());
+                //console.log(doc.data());
             });
             const lastDocSearch = snapshot.docs[snapshot.docs.length - 1] //o ultimo doc
             setCalled(called => [...called, ...list]);
@@ -95,9 +96,10 @@ export default function Dashboard() {
         })
     };
     function tooglePostModal(item){
-        console.log(item)
-        
-    };
+        setIsModalVisible(!isModalVisible); 
+        setDetail(item);
+        console.log(`etapa 1 ${item}`);
+    }
 
     return (
         <div className="dad_container">
@@ -135,11 +137,7 @@ export default function Dashboard() {
                                             </td>
                                             <td data-label="Cadastrado">{item.createdFormat}</td>
                                             <td data-label="#">
-                                                <button className="action" onClick={(item) => {
-                                                    setShowPostModal(!showPostModal);
-                                                    setDetail(item);
-                                                    console.log(`item ${item}`)
-                                                    }
+                                                <button className="action" onClick={(item) =>{tooglePostModal(item)}
                                                 }style={{background:'#3583f6'}}  >
                                                     <FiSearch color="#fff" size={17}/>
                                                 </button>
@@ -150,15 +148,15 @@ export default function Dashboard() {
                                         </tr>
                                     )
                                 })}
+                                
                             </tbody>
                         </table>
                         {loadingMore && <h3 style={{textAlign: 'center', marginTop: 15}}> Buscando chamdos ...</h3>}
                         {!loadingMore && !isEmpty && <button className="more" onClick={handleMore}><FiSearch color="#fff" size={20}/> Buscar Mais </button>}
-                       
                     </div> 
                 )}
             </div>
-            {showPostModal && (
+            {isModalVisible && (
                 <Modal
                     topic={detail}
                     close={tooglePostModal}
