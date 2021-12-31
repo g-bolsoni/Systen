@@ -68,6 +68,10 @@ export default function Dashboard() {
         setLoadingMore(false);
     };
 
+    function tooglePostModal(item){
+        setIsModalVisible(!isModalVisible); 
+        setDetail(item);
+    }
     if(loading){
         return( 
             <div className="dad_container">
@@ -95,11 +99,6 @@ export default function Dashboard() {
             toast.warning('Não há mais chamados');
         })
     };
-    function tooglePostModal(item){
-        setIsModalVisible(!isModalVisible); 
-        setDetail(item);
-        console.log(`etapa 1 ${item}`);
-    }
 
     return (
         <div className="dad_container">
@@ -133,11 +132,14 @@ export default function Dashboard() {
                                             <td data-label="Cliente">{item.client}</td>
                                             <td data-label="Assunto">{item.topic}</td>
                                             <td data-label="Status">
-                                                <span className="badge" style={{background: item.status === 'Aberto' ? '#5cb85c' : (item.status === 'Progresso' ? '#2954ff' : '#8C8C8C' ) }}>{item.status}</span>
+                                                <span className="badge" 
+                                                    style={{background: item.status === 'Aberto' ? '#5cb85c' : (item.status === 'Progresso' ? '#2954ff' : '#8C8C8C' ) }}>
+                                                    {item.status}
+                                                </span>
                                             </td>
                                             <td data-label="Cadastrado">{item.createdFormat}</td>
                                             <td data-label="#">
-                                                <button className="action" onClick={(item) =>{tooglePostModal(item)}
+                                                <button className="action" onClick={() =>{tooglePostModal(item)}
                                                 }style={{background:'#3583f6'}}  >
                                                     <FiSearch color="#fff" size={17}/>
                                                 </button>

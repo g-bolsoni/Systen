@@ -4,7 +4,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(0,0,0,0.5);
+    background-color: #00000080;
     z-index: 99;
     .container{
         position: fixed;
@@ -21,32 +21,33 @@
         }
 
         .close{
-            background-color: #f65835;
+            background-color: unset;
             border: 0;
             position: absolute;
             top: 15px;
-            left: 15px;
+            right: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 4px 15px;
+            padding: 10px;
             border-radius: 5px;
-            svg{
-                margin-right: 5px;
-            }
         }
     }
     h2{
-        margin-bottom: 1.2em;
+        margin-bottom: .5em;
         font-size: 2em;
     }
     span{
         font-weight: bold;
         font-size: 1.2em;
         color: #121212;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: flex-start;
         p{
             font-weight: 400;
-            margin-right: 1em;
+            margin-left: .5em;
             padding: 2px 8px;
             border-radius: 3px;
             white-space: pre-wrap;
