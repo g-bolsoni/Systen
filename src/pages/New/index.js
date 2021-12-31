@@ -2,6 +2,7 @@ import './style.scss';
 import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../contexts/user';
 import firebase from '../../services/firebaseConnection';
+import { useHistory, useParams} from 'react-router-dom';
 
 import Header from '../../components/Header';
 import Title from '../../components/Title';
@@ -10,6 +11,9 @@ import { toast } from 'react-toastify';
 
 
 export default function New() {
+    const { id } = useParams();
+    const history = useHistory();
+
     const [loadCustomer, setLoadCustomer] = useState(true);//load 
     const [customers, setCustomers] = useState([]);//get user
     const [customerSelected, setCustomerSelected] = useState(0); //limite de user
@@ -17,10 +21,35 @@ export default function New() {
     const [status, setStatus] = useState('Aberto');
     const [complement, setComplement] = useState('');
 
+    const [ idCustomer, setIdCustomer ] = useState(false);
+
     const { user } = useContext( UserContext );
     
     async function handleRegisterClient(e){
         e.preventDefault();
+        if(idCustomer){
+            await firebase.firestore().collection('called')
+            .doc(id)
+            .update({
+                client: customers[customerSelected].name_fantasia,
+                clientId: customers[customerSelected].id,
+                topic: topic,
+                status: status,
+                complement: complement,
+                userId: user.uid
+            })
+            .then(()=> {
+                toast.success('Chamado editado com sucesso');
+                setCustomerSelected(0);
+                setComplement('');
+                history.push('/dashboard')
+            })
+            .catch(err => {
+                console.log(err);
+                toast.error('Algo está errado !')
+            })
+            return;
+        }
        await firebase.firestore().collection('called').add({
             created: new Date(),
             client: customers[customerSelected].name_fantasia,
@@ -66,6 +95,9 @@ export default function New() {
                 }
                 setCustomers(lista);
                 setLoadCustomer(false);
+                if(id){
+                    loadId(lista);
+                }
             })
             .catch(err => {
                 console.log(err);
@@ -79,8 +111,25 @@ export default function New() {
             });
         }
         loadCustomers();    
-    }, [])
-    
+    }, [id, loadId])
+    async function loadId(lista){
+        await firebase.firestore().collection('called').doc(id).get()
+        .then((snapshot) => {
+            setTopic(snapshot.data().topic);
+            setStatus(snapshot.data().status);
+            setComplement(snapshot.data().complement);
+
+            let index = lista.findIndex(item => item.id === snapshot.data().clientId);
+            setCustomerSelected(index);
+            setIdCustomer(true);
+
+        })
+        .catch(err => {
+            console.log(err);
+            setIdCustomer(false);
+
+        });
+    }
     return (
         <div className="dad_container">
             <Header/>
